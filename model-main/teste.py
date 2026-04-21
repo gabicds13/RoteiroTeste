@@ -37,9 +37,36 @@ def teste_unitario_nome_ausente():
         print("✅ Teste 2 PASSOU: O sistema bloqueou o nome vazio.")
 
 
+def teste_integracao_fluxo_deposito_historico():
+    print("\n--- Executando Teste de Integração: Fluxo Depósito -> Histórico ---")
+
+    cliente = Cliente("Gabi", "444.555.666-77", "Rua do Insper, 123")
+    conta = Conta(numero=202, cliente=cliente)
+    valor = 150.0
+    deposito = Deposito(valor)
+
+
+    deposito.registrar(conta)
+
+    saldo_correto = conta.saldo == 150.0
+    historico_preenchido = len(conta._historico.transacoes) > 0
+
+    if saldo_correto and historico_preenchido:
+        print("✅ Teste de Integração PASSOU!")
+        print(f"   Saldo atualizado: {conta.saldo}")
+        print(f"   Transações no histórico: {len(conta._historico.transacoes)}")
+    else:
+        print("❌ Teste de Integração FALHOU!")
+        if not historico_preenchido:
+            print("   Erro: A transação não foi salva no histórico.")
+
+
 if __name__ == "__main__":
     teste_unitario_deposito()
     teste_unitario_nome_ausente()
-    
+    teste_integracao_fluxo_deposito_historico()
 
-    #teste unitario
+
+    #teste de integração
+
+
