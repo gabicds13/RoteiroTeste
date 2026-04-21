@@ -31,10 +31,10 @@ def teste_unitario_nome_ausente():
     novo_cliente = Pessoa(endereco, nascimento, cpf, nome_vazio)
 
     if novo_cliente._nome == "":
-        print("❌ Teste 2 FALHOU: O sistema permitiu criar um cliente sem nome!")
+        print(" Teste 2 FALHOU: O sistema permitiu criar um cliente sem nome!")
         print("   (Justificativa: Falta validação de integridade na classe Pessoa)")
     else:
-        print("✅ Teste 2 PASSOU: O sistema bloqueou o nome vazio.")
+        print(" Teste 2 PASSOU: O sistema bloqueou o nome vazio.")
 
 
 def teste_integracao_fluxo_deposito_historico():
@@ -52,19 +52,40 @@ def teste_integracao_fluxo_deposito_historico():
     historico_preenchido = len(conta._historico.transacoes) > 0
 
     if saldo_correto and historico_preenchido:
-        print("✅ Teste de Integração PASSOU!")
+        print("Teste de Integração PASSOU!")
         print(f"   Saldo atualizado: {conta.saldo}")
         print(f"   Transações no histórico: {len(conta._historico.transacoes)}")
     else:
-        print("❌ Teste de Integração FALHOU!")
+        print("Teste de Integração FALHOU!")
         if not historico_preenchido:
             print("   Erro: A transação não foi salva no histórico.")
 
+from View.interface import Interface
+from Controller.conta_controller import ContaController
+
+
+def teste_funcional_abertura_sistema():
+    print("\n--- Executando Teste Funcional: Abertura da Interface ---")
+
+    try:
+        controller = ContaController()
+        app = Interface(controller)
+
+        if app is not None:
+            print(" Teste Funcional PASSOU: Interface carregada com sucesso!")
+
+            app.root.destroy()
+        else:
+            print(" Teste Funcional FALHOU: A interface não foi instanciada.")
+
+    except Exception as e:
+        print(f" Teste Funcional FALHOU: Erro ao carregar sistema: {e}")
 
 if __name__ == "__main__":
     teste_unitario_deposito()
     teste_unitario_nome_ausente()
     teste_integracao_fluxo_deposito_historico()
+    teste_funcional_abertura_sistema()
 
 
     #teste de integração
