@@ -81,11 +81,34 @@ def teste_funcional_abertura_sistema():
     except Exception as e:
         print(f" Teste Funcional FALHOU: Erro ao carregar sistema: {e}")
 
+
+def teste_regressao_saldo_acumulado():
+    print("\n--- Executando Teste de Regressão: Estabilidade do Saldo ---")
+
+    try:
+
+        cliente = Cliente("Gabi Regressao", "000", "Rua X")
+        conta = Conta(numero=999, cliente=cliente)
+
+        deposito1 = Deposito(100.0)
+        deposito2 = Deposito(50.0)
+
+        deposito1.registrar(conta)
+        deposito2.registrar(conta)
+
+        if conta.saldo == 150.0:
+            print(" Teste de Regressão PASSOU: A lógica de acumulação de saldo continua estável!")
+        else:
+            print(f"Teste de Regressão FALHOU: O saldo acumulado está incorreto ({conta.saldo})")
+
+    except Exception as e:
+        print(f" Teste de Regressão FALHOU: Erro inesperado durante a execução: {e}")
 if __name__ == "__main__":
     teste_unitario_deposito()
     teste_unitario_nome_ausente()
     teste_integracao_fluxo_deposito_historico()
     teste_funcional_abertura_sistema()
+    teste_regressao_saldo_acumulado()
 
 
     #teste de integração
